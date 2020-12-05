@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+
+@model DawV2.Models.Group
+
+<h2>Edit</h2>
+
+<h2>Editare grup</h2>
+<form method="post" action="">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.HiddenFor(x => x.GroupId, Model.GroupId)
+    @Html.ValidationMessageFor(x => x.GroupName, null, new { @class = "text-danger" })
+    <br />
+    @Html.EditorFor(x => x.GroupName)
+    <br />
+    @Html.LabelFor(x => x.Description, "Descriere Grup")
+    <br />
+    @Html.EditorFor(x => x.Description)
+    <br />
+    <button type="submit" class="btn btn-info">Salveaza</button>
+    <a class="btn btn-success pull-right" href="/Groups/Show/@Model.GroupId">Back to group</a>
+</form>
