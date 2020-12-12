@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "New";
+}
+@model DawV2.Models.Notice
+<h2>New</h2>
+
+<h2>Adauga notice</h2>
+<form method="post" action="">
+    @Html.HiddenFor(x => x.ApplicationUserId, Model.ApplicationUserId)
+    @Html.ValidationMessageFor(x => x.Content, null, new { @class = "text-danger" })
+    <br />
+    @Html.LabelFor(x => x.Content, "Motivul")
+    <br />
+    @Html.EditorFor(x => x.Content)
+    <br />
+    <button type="submit" class="btn btn-info">Salveaza</button>
+    <a class="btn btn-success pull-right" href="">Back to group</a>
+</form>
