@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Send";
+}
+
+<h2>Send</h2>
+@model  DawV2.Models.FriendshipRequest
+
+<form method="post" action="">
+    @Html.LabelFor(x => x.ReceiverId, "Id Destinatar")
+    <br />
+    @Html.TextBoxFor(x => x.ReceiverId, null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.ReceiverId, null, new { @class = "text-danger" })
+    <br />
+    @Html.LabelFor(x => x.Message, "Mesaj cerere")
+    <br />
+    @Html.TextAreaFor(x => x.Message, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-success" type="submit">Trimite Cerere</button>
+    <a class="btn btn-info pull-right" href="/FriendshipRequests/Index">Back to groups</a>
+</form>

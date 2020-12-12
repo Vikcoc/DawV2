@@ -25,6 +25,8 @@ namespace DawV2.Models
         {
         }
 
+        public virtual DbSet<FriendshipRequest> FriendshipRequests { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

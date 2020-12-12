@@ -168,6 +168,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FriendshipRequestsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -177,8 +178,17 @@
     <Compile Include="Migrations\202012121223128_Initial.Designer.cs">
       <DependentUpon>202012121223128_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012121304241_FriendshipRequest.cs" />
+    <Compile Include="Migrations\202012121304241_FriendshipRequest.Designer.cs">
+      <DependentUpon>202012121304241_FriendshipRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012121324148_PersonalInfo.cs" />
+    <Compile Include="Migrations\202012121324148_PersonalInfo.Designer.cs">
+      <DependentUpon>202012121324148_PersonalInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\FriendshipRequest.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -195,7 +205,9 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Database.config" />
+    <Content Include="Database.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -241,6 +253,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\FriendshipRequests\Send.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -261,6 +274,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202012121223128_Initial.resx">
       <DependentUpon>202012121223128_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012121304241_FriendshipRequest.resx">
+      <DependentUpon>202012121304241_FriendshipRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012121324148_PersonalInfo.resx">
+      <DependentUpon>202012121324148_PersonalInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
