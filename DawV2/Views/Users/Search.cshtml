@@ -1,0 +1,41 @@
+﻿@{
+
+    ViewBag.Title = "Cautare utilizator";
+}
+
+<ol class="breadcrumb">
+    <li> <h3>@ViewBag.Title</h3></li>
+</ol>
+
+@model DawV2.Models.ApplicationUser
+@using (Html.BeginForm(actionName: "Search", controllerName: "Users"))
+{
+    @Html.Label("UserName", "Continut postare") <br />
+    @Html.TextBox("UserName", null, new { @class = "form-control" }) <br />
+
+    <button class="btn btn-success" type="submit"> Cauta utilizator </button>
+}
+
+@{ if (ViewBag.UsersList != null)
+    {
+        <div>
+            Rezulatele cautarii: <br />
+        </div>
+        foreach (var user in ViewBag.UsersList)
+        {
+            <div class="panel-heading">Nume utilizator: @user.UserName</div>
+
+            <div class="panel-body">
+                <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default">@user.Email</span>
+                <br /><br />
+
+                @if (@user.PhoneNumber != null)
+                {
+                    <i class="glyphicon glyphicon-phone"></i>@:Telefon utilizator:<span class="label label-default">@user.PhoneNumber</span>
+                }
+
+            </div>
+            <br /><br />
+            }
+        }
+    }

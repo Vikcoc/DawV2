@@ -17,6 +17,7 @@ namespace DawV2.Models
             // Add custom user claims here
             return userIdentity;
         }
+
         public virtual ICollection<UserGroup> UserGroups { get; set; }
         public virtual ICollection<GroupMessage> GroupMessages { get; set; }
         public virtual ICollection<Notice> Notices { get; set; }
