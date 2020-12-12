@@ -1,0 +1,21 @@
+﻿@model DawV2.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Detalii utilizator";
+}
+
+<ol class="breadcrumb">
+    <li><h3>@ViewBag.Title</h3></li>
+</ol>
+
+<div class="panel-heading">Nume utilizator: @Model.UserName</div>
+
+<div class="panel-body">
+
+    <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default">@Model.Email</span>
+    <br />
+
+    <br /><br />
+
+
+</div>

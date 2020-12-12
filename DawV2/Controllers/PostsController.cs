@@ -7,6 +7,7 @@ using DawV2.Models;
 
 namespace DawV2.Controllers
 {
+    [Authorize(Roles = "User,Admin")]
     public class PostsController : Controller
     {
         // GET: Posts
