@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1300
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawV2", "DawV2\DawV2.csproj", "{1CB90A76-3E91-4BCE-A379-FD5861749056}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawV2", "DawV2\DawV2.csproj", "{1B485722-29C4-4368-B4F9-5ABE0F4BDB61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1CB90A76-3E91-4BCE-A379-FD5861749056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1CB90A76-3E91-4BCE-A379-FD5861749056}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1CB90A76-3E91-4BCE-A379-FD5861749056}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1CB90A76-3E91-4BCE-A379-FD5861749056}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B485722-29C4-4368-B4F9-5ABE0F4BDB61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B485722-29C4-4368-B4F9-5ABE0F4BDB61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B485722-29C4-4368-B4F9-5ABE0F4BDB61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B485722-29C4-4368-B4F9-5ABE0F4BDB61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EF0E1111-7B9A-4A73-ACFA-3B0310AB4527}
+		SolutionGuid = {EDDC49E0-463B-4E30-896F-29E1B04CAD07}
 	EndGlobalSection
 EndGlobal
