@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using DawV2.Models;
+using Microsoft.AspNet.Identity;
 
 namespace DawV2.Controllers
 {
+    [Authorize]
     public class GroupsController : Controller
     {
         // GET: Group
@@ -29,6 +32,14 @@ namespace DawV2.Controllers
         [HttpPost]
         public ActionResult New(Group group)
         {
+            if(group.UserGroups == null)
+                group.UserGroups = new List<UserGroup>
+                {
+                    new UserGroup
+                    {
+                        ApplicationUserId = User.Identity.GetUserId()
+                    }
+                };
             try
             {
                 if (!ModelState.IsValid)
