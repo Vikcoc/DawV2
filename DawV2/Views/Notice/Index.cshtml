@@ -1,0 +1,16 @@
+﻿@using DawV2.Models
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<h1>My Notices</h1>
+@foreach (Notice notice in ViewBag.Notices)
+{
+    <div class="container-fluid bg-info" style="margin-top: 20px; padding-bottom: 15px">
+        <h2>@notice.Content</h2>
+    </div>
+    <hr />
+}

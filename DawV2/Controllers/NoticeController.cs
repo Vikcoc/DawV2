@@ -1,30 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using DawV2.Models;
+using Microsoft.AspNet.Identity;
 
 namespace DawV2.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize/*(Roles = "Admin")*/]
     public class NoticeController : Controller
     {
         // GET: Notice
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
-        public ActionResult Index()
+
+        [Authorize]
+        public async Task<ActionResult> Index()
         {
+            var id = User.Identity.GetUserId();
+            ViewBag.Notices = await _db.Notices.Where(x => x.ApplicationUserId == id).ToListAsync();
             return View();
         }
 
-        public ActionResult New(string userId)
+        [Authorize(Roles = "Admin")]
+        public ActionResult New(string id)
         {
-            var user = _db.Users.Find(userId);
-            if (user != null)
-                ViewBag.UserId = userId;
-            return View(new Notice{ApplicationUserId = userId});
+            //var user = _db.Users.Find(userId);
+            //if (user != null)
+            //    ViewBag.UserId = userId;
+            var notice = new Notice
+            {
+                ApplicationUserId = id
+            };
+            return View(notice);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult New(Notice notice)
         {
