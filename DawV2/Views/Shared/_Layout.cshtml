@@ -21,7 +21,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Cautare utilizator", "Index", "Users")</li>
+                    <li>@Html.ActionLink("Cautare utilizator", "Search", "Users")</li>
                     @if (User.IsInRole("Admin"))
                     {
                         <li>@Html.ActionLink("Afisare postari", "Index", "Posts")</li>

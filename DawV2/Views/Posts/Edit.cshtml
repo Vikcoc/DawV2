@@ -1,7 +1,16 @@
-﻿
+﻿@model DawV2.Models.Post
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editeaza postarea";
 }
 
-<h2>Edit</h2>
+<h2> @ViewBag.Title </h2>
+<form method="post" action="/Posts/Edit/@Model.PostId">
+    @Html.HiddenFor(m => m.PostId)
+    @Html.Label("Content", "Continut postare") <br />
+    @Html.Editor("Content")
+    @Html.ValidationMessageFor(m => m.Content, null, new { @class = "text-danger " })  <br /><br />
 
+    <button class="btn btn-success" type="submit"> Editeaza postarea </button>
+</form>
+<hr />
+<a class="btn btn-primary" href="/Posts/Show/@Model.PostId"> Inapoi la postare </a>

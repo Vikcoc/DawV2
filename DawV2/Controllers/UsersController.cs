@@ -14,6 +14,21 @@ namespace DawV2.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Users
+        public ActionResult Search()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Search(ApplicationUser usr)
+        {
+            var users = from user in db.Users
+                        where user.UserName == usr.UserName
+                        select user;
+            ViewBag.UsersList = users;
+            return View();
+        }
+
         public ActionResult Index()
         {
             var users = from user in db.Users
@@ -32,13 +47,13 @@ namespace DawV2.Controllers
             //var userRole = roles.Where(j => j.Id == user.Roles.FirstOrDefault().RoleId).
             //               Select(a => a.Name).FirstOrDefault();
 
-            //string currentRole = user.Roles.FirstOrDefault().RoleId;
+            string currentRole = user.Roles.FirstOrDefault().RoleId;
 
-            /*var userRoleName = (from role in db.Roles
+            var userRoleName = (from role in db.Roles
                                 where role.Id == currentRole
                                 select role.Name).First();
 
-            ViewBag.roleName = userRoleName;*/
+            ViewBag.roleName = userRoleName;
 
             return View(user);
         }
