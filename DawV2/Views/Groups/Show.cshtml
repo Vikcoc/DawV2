@@ -1,4 +1,4 @@
-﻿
+﻿@model DawV2.Models.Group
 @{
     ViewBag.Title = "Show";
 }
@@ -27,8 +27,43 @@
                         </div>
                     }
                 </div>
+                <div style="display: inline-block; float: left; margin-right: 15px">
+                    <a class="glyphicon glyphicon-pencil" href="/GroupMessage/Edit/@message.MessageId"></a>
+                </div>
+                <div style="display: inline-block; float: left">
+                    <form method="post" action="/GroupMessage/Delete/@message.MessageId">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button class="glyphicon glyphicon-trash" style="background: transparent; border: none;" type="submit"></button>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="col-md-2"></div>
     </div>
 }
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="panel">
+                @using (Html.BeginForm(actionName: "New", controllerName: "GroupMessage"))
+                {
+                    @Html.HiddenFor(m => m.GroupId, Model.GroupId)
+                    @Html.Hidden("IsEdited", false)
+
+                    @Html.Label("Message", "Continut Mesaj") <br />
+                    @Html.TextBox("Message", "", new { @class = "form-control" }) <br />
+                    @*@Html.ValidationMessage("Content", null, new { @class = "text-danger " })*@
+                    <br />
+
+                    <button class="btn btn-success" type="submit"> Adauga mesaj </button>
+                }
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+<hr />

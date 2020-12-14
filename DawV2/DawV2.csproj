@@ -284,10 +284,9 @@
     <Content Include="Views\Notice\New.cshtml" />
     <Content Include="Views\Notice\Index.cshtml" />
     <Content Include="Views\Users\Search.cshtml" />
+    <Content Include="Views\GroupMessage\Edit.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\GroupMessage\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

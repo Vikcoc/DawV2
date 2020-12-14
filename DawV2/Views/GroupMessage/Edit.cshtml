@@ -1,0 +1,18 @@
+﻿@model DawV2.Models.GroupMessage
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h2> @ViewBag.Title </h2>
+<form method="post" action="/GroupMessage/Edit/@Model.MessageId">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.HiddenFor(m => m.GroupId, Model.GroupId)
+
+    @Html.LabelFor(x => x.Message, "Message") <br />
+    @Html.EditorFor(x => x.Message) <br /> <br />
+    <button class="btn btn-success" type="submit"> Editeaza comentariul </button>
+</form>
+<hr />
+<a class="btn btn-primary" href="/Groups/Show/@Model.GroupId"> Inapoi la postare </a>
