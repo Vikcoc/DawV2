@@ -81,13 +81,12 @@ namespace DawV2.Controllers
                 if (!TryUpdateModel(dbGroup))
                     return View(group);
 
-                if (dbGroup != null)
-                {
-                    dbGroup.GroupName = @group.GroupName;
-                    dbGroup.Description = @group.Description;
-                }
-
+                if (dbGroup == null)
+                    return RedirectToAction("Show", new {id = @group.GroupId});
+                dbGroup.GroupName = @group.GroupName;
+                dbGroup.Description = @group.Description;
                 _context.SaveChanges();
+
                 return RedirectToAction("Show", new { id = group.GroupId });
             }
             catch (Exception)

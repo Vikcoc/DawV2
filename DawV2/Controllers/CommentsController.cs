@@ -30,7 +30,7 @@ namespace DawV2.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Redirect("/Posts/Show/" + comment.PostId);
             }
@@ -65,7 +65,7 @@ namespace DawV2.Controllers
 
                 return Redirect("/Posts/Show/" + comment.PostId);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Redirect("/Posts/Show/" + comment.PostId);
             }

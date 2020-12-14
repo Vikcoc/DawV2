@@ -58,7 +58,7 @@ namespace DawV2.Controllers
                     return View(post);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return View(post);
             }
@@ -94,7 +94,7 @@ namespace DawV2.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return View(post);
             }
