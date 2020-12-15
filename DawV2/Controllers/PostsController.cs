@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DawV2.Models;
+using Microsoft.AspNet.Identity;
 
 namespace DawV2.Controllers
 {
@@ -16,6 +17,7 @@ namespace DawV2.Controllers
         public ActionResult Index()
         {
             ViewBag.posts = _db.Posts;
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"];
@@ -26,6 +28,7 @@ namespace DawV2.Controllers
         public ActionResult Show(int id)
         {
             Post post = _db.Posts.Find(id);
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"];
@@ -36,12 +39,15 @@ namespace DawV2.Controllers
         public ActionResult New()
         {
             Post post = new Post();
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             return View(post);
         }
 
         [HttpPost]
         public ActionResult New(Post post)
         {
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
+
             post.ApplicationUserId = _db.Users.First().Id;
             post.IsEdited = false;
             try
@@ -67,6 +73,8 @@ namespace DawV2.Controllers
 
         public ActionResult Edit(int id)
         {
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
+
             Post post = _db.Posts.Find(id);
             return View(post);
         }

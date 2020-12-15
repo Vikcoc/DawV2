@@ -3,39 +3,48 @@
     ViewBag.Title = "Cautare utilizator";
 }
 
-<ol class="breadcrumb">
-    <li> <h3>@ViewBag.Title</h3></li>
-</ol>
+<h3>@ViewBag.Title</h3>
 
 @model DawV2.Models.ApplicationUser
 @using (Html.BeginForm(actionName: "Search", controllerName: "Users"))
 {
-    @Html.Label("UserName", "Continut postare") <br />
-    @Html.TextBox("UserName", null, new { @class = "form-control" }) <br />
+    @Html.Label("LastName", "Numele persoanei cautate") <br />
+    @Html.TextBox("LastName", null, new { @class = "form-control" }) <br />
+
+    @Html.Label("FirstName", "Prenumele persoanei cautate") <br />
+    @Html.TextBox("FirstName", null, new { @class = "form-control" }) <br />
 
     <button class="btn btn-success" type="submit"> Cauta utilizator </button>
 }
 
+<hr />
 @{ if (ViewBag.UsersList != null)
     {
-        <div>
-            Rezulatele cautarii: <br />
-        </div>
+        if (ViewBag.NrUtilizatori == 0)
+        {
+            <div>
+                Nu exista niciun utilizator cu numele cautat <br />
+            </div>
+        }
+        else
+        {
+            <div>
+                Rezulatele cautarii: <br /> <br />
+            </div>
+        }
+
         foreach (var user in ViewBag.UsersList)
         {
-            <div class="panel-heading">Nume utilizator: @user.UserName</div>
-
-            <div class="panel-body">
-                <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default">@user.Email</span>
-                <br /><br />
-
-                @if (@user.PhoneNumber != null)
-                {
-                    <i class="glyphicon glyphicon-phone"></i>@:Telefon utilizator:<span class="label label-default">@user.PhoneNumber</span>
-                }
-
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <strong> Nume: </strong> @user.LastName <br />
+                    <strong> Prenume: </strong> @user.FirstName <br />
+                    <i class="glyphicon glyphicon-envelope"></i> Email: <span class="label label-default">@user.Email</span>
+                </div>
+                <div class="panel-footer">
+                    <a class="btn btn-sm btn-success" href="/Users/Show/@user.Id"> Vizualizare profil </a>
+                </div>
             </div>
-            <br /><br />
-            }
         }
     }
+}

@@ -1,39 +1,55 @@
-﻿@model DawV2.Models.ApplicationUser
-
-@{
-                ViewBag.Title = "Detalii utilizator";
+﻿@{
+    ViewBag.Title = "Profil utilizator";
 }
 
-<ol class="breadcrumb">
-    <li><h3>@ViewBag.Title</h3></li>
-</ol>
+@model DawV2.Models.ApplicationUser
 
-<div class="panel-heading">Nume utilizator: @Model.UserName</div>
 
-<div class="panel-body">
+<h1 style="text-align: center"> @Model.FirstName @Model.LastName </h1>
+<hr />
 
-    <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default">@Model.Email</span>
-    <br />
-    <i class="glyphicon glyphicon-th-list"></i> Rol utilizator: @ViewBag.roleName
-
-    <br /><br />
-
-    @if (@Model.PhoneNumber != null)
-    {
-        <i class="glyphicon glyphicon-phone"></i>@:Telefon utilizator:<span class="label label-default">@Model.PhoneNumber</span>
-    }
-
-</div>
-
-@if ((string)Model.Id != ViewBag.utilizatorCurent)
-{
-    <div class="panel-footer">
-        @using (Html.BeginForm(actionName: "Delete", controllerName: "Users", routeValues: new { id = @Model.Id }))
-        {
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <br />
-            <button class="btn btn-success" type="submit">Sterge utilizator</button>
-
+<div class="panel panel-default">
+    <div class="panel-body">
+        <a class="btn btn-primary pull-left" href="/Users/Edit/@Model.Id"> Editeaza postarea </a>
+        @{
+            if ((string)Model.Id != ViewBag.utilizatorCurent)
+            {
+                <form method="post" action="/Users/Delete/@Model.Id">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger pull-right" type="submit"> Sterge utilizatorul </button>
+                </form>
+            }
         }
     </div>
-}
+</div>
+
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+    <div class="btn-group" role="group">
+        <a class="btn btn-default" href="#about"> Despre </a>
+    </div>
+    <div class="btn-group" role="group">
+        <a class="btn btn-default" href="#post"> Postari </a>
+    </div>
+    <div class="btn-group" role="group">
+        <a class="btn btn-default" href="#friends"> Prieteni </a>
+    </div>
+</div>
+
+<div class="about">
+    <h2> Despre </h2>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default"> @Model.Email </span> <br />
+            <i class="glyphicon glyphicon-th-list"></i> Rol utilizator: @ViewBag.roleName
+
+            <br /><br />
+
+            @if (@Model.PhoneNumber != null)
+            {
+                <i class="glyphicon glyphicon-phone"></i>@:Telefon utilizator:<span class="label label-default">@Model.PhoneNumber</span>
+            }
+
+        </div>
+    </div>
+</div>
+<hr />

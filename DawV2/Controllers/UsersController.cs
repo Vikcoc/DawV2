@@ -16,16 +16,22 @@ namespace DawV2.Controllers
         // GET: Users
         public ActionResult Search()
         {
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             return View();
         }
 
         [HttpPost]
         public ActionResult Search(ApplicationUser usr)
         {
+            bool isAdmin = User.IsInRole("Admin");
             var users = from user in db.Users
-                        where user.UserName == usr.UserName
+                        where user.LastName == usr.LastName && user.FirstName == usr.FirstName && (user.IsPublic == true || isAdmin == true)
                         select user;
+
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             ViewBag.UsersList = users;
+            ViewBag.NrUtilizatori = users.Count();
+
             return View();
         }
 
@@ -43,10 +49,6 @@ namespace DawV2.Controllers
             ApplicationUser user = db.Users.Find(id);
 
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
-
-            //var userRole = roles.Where(j => j.Id == user.Roles.FirstOrDefault().RoleId).
-            //               Select(a => a.Name).FirstOrDefault();
-
             string currentRole = user.Roles.FirstOrDefault().RoleId;
 
             var userRoleName = (from role in db.Roles

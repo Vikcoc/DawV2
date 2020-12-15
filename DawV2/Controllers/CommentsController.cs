@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DawV2.Models;
+using Microsoft.AspNet.Identity;
 
 namespace DawV2.Controllers
 {
@@ -15,6 +16,7 @@ namespace DawV2.Controllers
         [HttpPost]
         public ActionResult New(Comment comment)
         {
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             comment.ApplicationUserId = _db.Users.First().Id;
             try
             {
@@ -47,6 +49,7 @@ namespace DawV2.Controllers
 
         public ActionResult Edit(int id)
         {
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             Comment comment = _db.Comments.Find(id);
             return View(comment);
         }

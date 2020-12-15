@@ -24,15 +24,14 @@
                     <li>@Html.ActionLink("Cautare utilizator", "Search", "Users")</li>
                     @if (User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Afisare postari", "Index", "Posts")</li>
-                        <li>@Html.ActionLink("Afisare grupuri", "Index", "Groups")</li>
                         <li>@Html.ActionLink("Afisare utilizatori", "Index", "Users")</li>
                     }
 
-                    @if (User.IsInRole("User"))
+                    @if (User.IsInRole("User") || User.IsInRole("Admin"))
                     {
                         <li>@Html.ActionLink("Afisare postari", "Index", "Posts")</li>
                         <li>@Html.ActionLink("Afisare grupuri", "Index", "Groups")</li>
+                        <li>@Html.ActionLink("Pagina de profil", "Show", "Users", new { id = ViewBag.utilizatorCurent }, null)</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
