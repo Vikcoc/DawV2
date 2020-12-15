@@ -57,7 +57,7 @@ namespace DawV2.Controllers
                 var oldMessage = _db.GroupMessages.Find(id);
                 if (!TryUpdateModel(oldMessage) || oldMessage == null)
                     return Redirect("/Groups/Show/" + groupMessage.GroupId);
-
+                oldMessage.IsEdited = true;
                 oldMessage.Message = groupMessage.Message;
                 _db.SaveChanges();
 
