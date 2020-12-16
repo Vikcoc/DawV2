@@ -5,54 +5,66 @@
 @model DawV2.Models.ApplicationUser
 
 
-<h1 style="text-align: center"> @Model.FirstName @Model.LastName </h1>
-<hr />
+<br /> <br />
+<h1> @Model.FirstName @Model.LastName </h1>
+<br /> <br />
 
-@{
-    if (User.IsInRole("Admin") || (string)Model.Id == ViewBag.utilizatorCurent)
-    {
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <a class="btn btn-primary pull-left" href="/Users/Edit/@Model.Id"> Editeaza profil </a>
-                @{
-                    if ((string)Model.Id != ViewBag.utilizatorCurent)
-                    {
-                        <form method="post" action="/Users/Delete/@Model.Id">
-                            @Html.HttpMethodOverride(HttpVerbs.Delete)
-                            <button class="btn btn-danger pull-right" type="submit"> Sterge profil </button>
-                        </form>
-                    }
-                }
+<div class="row">
+    <div class="col-lg-9">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <a class="btn btn-default" href="#about"> Despre </a>
+            </div>
+            <div class="btn-group" role="group">
+                <a class="btn btn-default" href="#posts"> Postari </a>
+            </div>
+            <div class="btn-group" role="group">
+                <a class="btn btn-default" href="#friends"> Prieteni </a>
             </div>
         </div>
-
-    }
-}
-
-<div class="btn-group btn-group-justified" role="group" aria-label="...">
-    <div class="btn-group" role="group">
-        <a class="btn btn-default" href="#about"> Despre </a>
     </div>
-    <div class="btn-group" role="group">
-        <a class="btn btn-default" href="#posts"> Postari </a>
-    </div>
-    <div class="btn-group" role="group">
-        <a class="btn btn-default" href="#friends"> Prieteni </a>
+
+    <div class="col-lg-3">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            @{
+                if (User.IsInRole("Admin") && (string)Model.Id != ViewBag.utilizatorCurent)
+                {
+                    <div class="btn-group" role="group" style="padding-left: 0px; padding-right: 10px;">
+                        <form method="post" action="/Users/Delete/@Model.Id">
+                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+                            <button class="btn btn-danger" type="submit"> Sterge profil </button>
+                        </form>
+                    </div>
+                }
+            }
+
+            @{
+                if (User.IsInRole("Admin") || (string)Model.Id == ViewBag.utilizatorCurent)
+                {
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-primary" href="/Users/Edit/@Model.Id"> Editeaza profil </a>
+                    </div>
+                }
+            }
+        </div>
     </div>
 </div>
+<br />
+
 
 <div id="about">
     <h3 style="text-align: center"> Despre </h3>
     <div class="panel panel-default">
         <div class="panel-body">
-            <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default"> @Model.Email </span> <br />
-            <i class="glyphicon glyphicon-th-list"></i> Rol utilizator: @ViewBag.roleName
+            <small> <strong> Nume: </strong> @Model.LastName </small> <br />
+            <small> <strong> Prenume: </strong> @Model.FirstName </small> <br />
+            <small> <i class="glyphicon glyphicon-envelope"></i> <stong> Email utilizator: </stong> @Model.Email  </small> <br />
 
             <br /><br />
 
             @if (@Model.PhoneNumber != null)
             {
-                <i class="glyphicon glyphicon-phone"></i>@:Telefon utilizator:<span class="label label-default">@Model.PhoneNumber</span>
+                <small> <i class="glyphicon glyphicon-phone"></i> <strong> Telefon utilizator: </strong> </small> <span class="label label-default"> @Model.PhoneNumber</span>
             }
 
         </div>
@@ -76,4 +88,3 @@
         </div>
     }
 </div>
-<hr />
