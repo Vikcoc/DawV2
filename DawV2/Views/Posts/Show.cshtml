@@ -8,14 +8,22 @@
 <h2> @ViewBag.Title </h2>
 <p> @ViewBag.message </p>
 <div class="panel panel-default">
+    <div class="panel-heading">
+        <small> <strong> @Model.ApplicationUser.FirstName @Model.ApplicationUser.LastName </strong> spune: </small>
+    </div>
     <div class="panel-body">
         <p> @Model.Content </p>
-        <hr />
-        <a class="btn btn-primary pull-left" href="/Posts/Edit/@Model.PostId"> Editeaza postarea </a>
-        <form method="post" action="/Posts/Delete/@Model.PostId">
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button class="btn btn-danger pull-right" type="submit"> Sterge postarea </button>
-        </form>
+        @{
+            <hr />
+            if (User.IsInRole("Admin") || @Model.ApplicationUserId == ViewBag.utilizatorCurent)
+            {
+                <a class="btn btn-primary btn-sm pull-left" href="/Posts/Edit/@Model.PostId"> Editeaza postarea </a>
+                <form method="post" action="/Posts/Delete/@Model.PostId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger btn-sm pull-right" type="submit"> Sterge postarea </button>
+                </form>
+            }
+        }
     </div>
 </div>
 

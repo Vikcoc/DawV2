@@ -289,6 +289,7 @@
     <Content Include="Views\Notice\Index.cshtml" />
     <Content Include="Views\Users\Search.cshtml" />
     <Content Include="Views\GroupMessage\Edit.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

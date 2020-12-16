@@ -60,11 +60,10 @@ namespace DawV2.Controllers
             return View(user);
         }
 
-
-        /*public ActionResult Edit(string id)
+       
+        public ActionResult Edit(string id)
         {
             ApplicationUser user = db.Users.Find(id);
-            user.AllRoles = GetAllRoles();
             var userRole = user.Roles.FirstOrDefault();
             ViewBag.userRole = userRole.RoleId;
             return View(user);
@@ -74,32 +73,15 @@ namespace DawV2.Controllers
         public ActionResult Edit(string id, ApplicationUser newData)
         {
             ApplicationUser user = db.Users.Find(id);
-            user.AllRoles = GetAllRoles();
-            var userRole = user.Roles.FirstOrDefault();
-            ViewBag.userRole = userRole.RoleId;
-
             try
             {
-                ApplicationDbContext context = new ApplicationDbContext();
-                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-
-
                 if (TryUpdateModel(user))
                 {
-                    user.UserName = newData.UserName;
+                    user.FirstName = newData.FirstName;
+                    user.LastName = newData.LastName;
                     user.Email = newData.Email;
                     user.PhoneNumber = newData.PhoneNumber;
-
-                    var roles = from role in db.Roles select role;
-                    foreach (var role in roles)
-                    {
-                        UserManager.RemoveFromRole(id, role.Name);
-                    }
-
-                    var selectedRole = db.Roles.Find(HttpContext.Request.Params.Get("newRole"));
-                    UserManager.AddToRole(id, selectedRole.Name);
-
+                    
                     db.SaveChanges();
                 }
                 return RedirectToAction("Index");
@@ -112,21 +94,31 @@ namespace DawV2.Controllers
             }
         }
 
-        [NonAction]
-        public IEnumerable<SelectListItem> GetAllRoles()
+        [Authorize(Roles = "Admin")]
+        [HttpDelete]
+        public ActionResult Delete(string id)
         {
-            var selectList = new List<SelectListItem>();
 
-            var roles = from role in db.Roles select role;
-            foreach (var role in roles)
+            ApplicationDbContext context = new ApplicationDbContext();
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var user = UserManager.Users.FirstOrDefault(u => u.Id == id);
+
+            var posts = db.Posts.Where(a => a.ApplicationUserId == id);
+            foreach (var post in posts)
             {
-                selectList.Add(new SelectListItem
-                {
-                    Value = role.Id.ToString(),
-                    Text = role.Name.ToString()
-                });
+                db.Posts.Remove(post);
+
             }
-            return selectList;
-        }*/
+
+            var comments = db.Comments.Where(comm => comm.ApplicationUserId == id);
+            foreach (var comment in comments)
+            {
+                db.Comments.Remove(comment);
+            }
+
+            db.SaveChanges();
+            UserManager.Delete(user);
+            return RedirectToAction("Index");
+        }
     }
 }

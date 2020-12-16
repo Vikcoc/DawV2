@@ -8,35 +8,41 @@
 <h1 style="text-align: center"> @Model.FirstName @Model.LastName </h1>
 <hr />
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        <a class="btn btn-primary pull-left" href="/Users/Edit/@Model.Id"> Editeaza postarea </a>
-        @{
-            if ((string)Model.Id != ViewBag.utilizatorCurent)
-            {
-                <form method="post" action="/Users/Delete/@Model.Id">
-                    @Html.HttpMethodOverride(HttpVerbs.Delete)
-                    <button class="btn btn-danger pull-right" type="submit"> Sterge utilizatorul </button>
-                </form>
-            }
-        }
-    </div>
-</div>
+@{
+    if (User.IsInRole("Admin") || (string)Model.Id == ViewBag.utilizatorCurent)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <a class="btn btn-primary pull-left" href="/Users/Edit/@Model.Id"> Editeaza profil </a>
+                @{
+                    if ((string)Model.Id != ViewBag.utilizatorCurent)
+                    {
+                        <form method="post" action="/Users/Delete/@Model.Id">
+                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+                            <button class="btn btn-danger pull-right" type="submit"> Sterge profil </button>
+                        </form>
+                    }
+                }
+            </div>
+        </div>
+
+    }
+}
 
 <div class="btn-group btn-group-justified" role="group" aria-label="...">
     <div class="btn-group" role="group">
         <a class="btn btn-default" href="#about"> Despre </a>
     </div>
     <div class="btn-group" role="group">
-        <a class="btn btn-default" href="#post"> Postari </a>
+        <a class="btn btn-default" href="#posts"> Postari </a>
     </div>
     <div class="btn-group" role="group">
         <a class="btn btn-default" href="#friends"> Prieteni </a>
     </div>
 </div>
 
-<div class="about">
-    <h2> Despre </h2>
+<div id="about">
+    <h3 style="text-align: center"> Despre </h3>
     <div class="panel panel-default">
         <div class="panel-body">
             <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default"> @Model.Email </span> <br />
@@ -51,5 +57,23 @@
 
         </div>
     </div>
+</div>
+<hr />
+
+<div id="posts">
+    <h3 style="text-align: center"> Postari </h3>
+    @foreach (var postare in @Model.Posts)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <small> <strong> @Model.FirstName @Model.LastName </strong> spune: </small>
+            </div>
+            <div class="panel-body">
+                <p> @postare.Content </p>
+                <hr />
+                <a class="btn btn-primary btn-sm" href="/Posts/Show/@postare.PostId"> Afiseaza postarea </a>
+            </div>
+        </div>
+    }
 </div>
 <hr />

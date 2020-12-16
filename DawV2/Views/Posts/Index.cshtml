@@ -8,10 +8,13 @@
 @foreach (var post in ViewBag.posts)
 {
     <div class="panel panel-default">
+        <div class="panel-heading">
+            <small> <strong> @post.ApplicationUser.FirstName @post.ApplicationUser.LastName </strong> spune: </small>
+        </div>
         <div class="panel-body">
             <p> @post.Content </p>
             <hr />
-            <a class="btn btn-primary" href="/Posts/Show/@post.PostId"> Afiseaza postarea </a>
+            <a class="btn btn-primary btn-sm" href="/Posts/Show/@post.PostId"> Afiseaza postarea </a>
         </div>
     </div>
 }

@@ -47,9 +47,9 @@ namespace DawV2.Controllers
         public ActionResult New(Post post)
         {
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
-
-            post.ApplicationUserId = _db.Users.First().Id;
+            
             post.IsEdited = false;
+            post.ApplicationUserId = User.Identity.GetUserId();
             try
             {
                 if (ModelState.IsValid)
@@ -87,14 +87,13 @@ namespace DawV2.Controllers
                 if (ModelState.IsValid)
                 {
                     Post oldPost = _db.Posts.Find(id);
-
                     if (TryUpdateModel(oldPost))
                     {
                         oldPost.Content = post.Content;
                         _db.SaveChanges();
                         TempData["message"] = "Postarea a fost editata cu succes";
                     }
-                    return Redirect("/Posts/Show/" + post.PostId);
+                    return Redirect("/Posts/Index");
                 }
                 else
                 {

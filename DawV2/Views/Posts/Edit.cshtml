@@ -4,13 +4,17 @@
 }
 
 <h2> @ViewBag.Title </h2>
-<form method="post" action="/Posts/Edit/@Model.PostId">
-    @Html.HiddenFor(m => m.PostId)
-    @Html.Label("Content", "Continut postare") <br />
-    @Html.Editor("Content")
-    @Html.ValidationMessageFor(m => m.Content, null, new { @class = "text-danger " })  <br /><br />
-
-    <button class="btn btn-success" type="submit"> Editeaza postarea </button>
-</form>
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Posts", routeValues: new { id = Model.PostId }))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.Label("Content", "Continut Postare")
+    <br />
+    @Html.EditorFor(m => m.Content)
+    <br />
+    @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger" })
+    <br /><br />
+    
+    <button class="btn btn-sm btn-success" type="submit"> Editeaza postarea </button>
+}
 <hr />
 <a class="btn btn-primary" href="/Posts/Show/@Model.PostId"> Inapoi la postare </a>
