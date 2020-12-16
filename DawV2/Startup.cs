@@ -28,9 +28,14 @@ namespace DawV2
                 roleManager.Create(role);
 
 
-                var user = new ApplicationUser();
-                user.UserName = "admin@gmail.com";
-                user.Email = "admin@gmail.com";
+                var user = new ApplicationUser
+                {
+                    UserName = "admin@gmail.com",
+                    Email = "admin@gmail.com",
+                    LastName = "Administrator",
+                    FirstName = "Admin",
+                    IsPublic = true
+                };
 
                 var adminCreated = UserManager.Create(user, "Admin*1");
                 if (adminCreated.Succeeded)
