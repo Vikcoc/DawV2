@@ -35,7 +35,8 @@ namespace DawV2.Controllers
             }
             return View(post);
         }
-
+        
+        [Authorize(Roles = "User,Admin")]
         public ActionResult New()
         {
             Post post = new Post();
@@ -44,6 +45,7 @@ namespace DawV2.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult New(Post post)
         {
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
@@ -70,7 +72,8 @@ namespace DawV2.Controllers
             }
 
         }
-
+        
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id)
         {
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
@@ -80,26 +83,34 @@ namespace DawV2.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id, Post post)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    Post oldPost = _db.Posts.Find(id);
-                    if (TryUpdateModel(oldPost))
+                    if (post.ApplicationUserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
                     {
-                        oldPost.Content = post.Content;
-                        _db.SaveChanges();
-                        TempData["message"] = "Postarea a fost editata cu succes";
+                        Post oldPost = _db.Posts.Find(id);
+                        if (TryUpdateModel(oldPost))
+                        {
+                            oldPost.Content = post.Content;
+                            _db.SaveChanges();
+                            TempData["message"] = "Postarea a fost editata cu succes";
+                        }
+                        return Redirect("/Posts/Index");
                     }
-                    return Redirect("/Posts/Index");
+                    else
+                    {
+                        TempData["message"] = "Nu aveti dreprul sa modificati aceasta postare";
+                        return Redirect("/Posts/Index");
+                    }
                 }
                 else
                 {
                     return View(post);
                 }
-
             }
             catch (Exception)
             {
@@ -108,13 +119,22 @@ namespace DawV2.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Delete(int id)
         {
             var post = _db.Posts.Find(id);
-            _db.Posts.Remove(post);
-            _db.SaveChanges();
-            TempData["message"] = "Postarea a fost stearsa cu succes!";
-            return RedirectToAction("Index");
+            if (post.ApplicationUserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            {
+                _db.Posts.Remove(post);
+                _db.SaveChanges();
+                TempData["message"] = "Postarea a fost stearsa cu succes!";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa stergeti aceasta postare!";
+                return RedirectToAction("Index");
+            }
         }
     }
 }

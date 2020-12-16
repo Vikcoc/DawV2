@@ -14,6 +14,7 @@ namespace DawV2.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult New(Comment comment)
         {
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
@@ -39,14 +40,24 @@ namespace DawV2.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Delete(int id)
         {
+            
             var comment = _db.Comments.Find(id);
-            _db.Comments.Remove(comment);
-            _db.SaveChanges();
-            return Redirect("/Posts/Show/" + comment.PostId);
+            if (comment.ApplicationUserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
+            {
+                _db.Comments.Remove(comment);
+                _db.SaveChanges();
+                return Redirect("/Posts/Show/" + comment.PostId);
+            }
+            else
+            {
+                return Redirect("/Posts/Show/" + comment.PostId);
+            }
         }
-
+        
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id)
         {
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
@@ -55,18 +66,26 @@ namespace DawV2.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id, Comment comment)
         {
             try
             {
-                var oldComment = _db.Comments.Find(id);
-                if (TryUpdateModel(oldComment))
+                if (comment.ApplicationUserId == User.Identity.GetUserId() || User.IsInRole("Admin"))
                 {
-                    oldComment.Content = comment.Content;
-                    _db.SaveChanges();
-                }
+                    var oldComment = _db.Comments.Find(id);
+                    if (TryUpdateModel(oldComment))
+                    {
+                        oldComment.Content = comment.Content;
+                        _db.SaveChanges();
+                    }
 
-                return Redirect("/Posts/Show/" + comment.PostId);
+                    return Redirect("/Posts/Show/" + comment.PostId);
+                }
+                else
+                {
+                    return Redirect("/Posts/Show/" + comment.PostId);
+                }
             }
             catch (Exception)
             {

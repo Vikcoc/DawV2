@@ -14,9 +14,9 @@
     <div class="panel-body">
         <p> @Model.Content </p>
         @{
-            <hr />
             if (User.IsInRole("Admin") || @Model.ApplicationUserId == ViewBag.utilizatorCurent)
             {
+                <hr />
                 <a class="btn btn-primary btn-sm pull-left" href="/Posts/Edit/@Model.PostId"> Editeaza postarea </a>
                 <form method="post" action="/Posts/Delete/@Model.PostId">
                     @Html.HttpMethodOverride(HttpVerbs.Delete)
@@ -33,20 +33,26 @@
 {
     <div class="container">
         <div class="row">
-            <div class="col-md-2"></div>
+            <div class="col-md-2">            </div>
             <div class="col-md-8">
                 <div>
+                    <small> <strong> @comm.ApplicationUser.FirstName @comm.ApplicationUser.LastName </strong> a raspuns: </small>
                     <p>@comm.Content</p>
                 </div>
-                <div style="display: inline-block; float: left; margin-right: 15px">
-                    <a class="glyphicon glyphicon-pencil" href="/Comments/Edit/@comm.CommentId"></a>
-                </div>
-                <div style="display: inline-block; float: left">
-                    <form method="post" action="/Comments/Delete/@comm.CommentId">
-                        @Html.HttpMethodOverride(HttpVerbs.Delete)
-                        <button class="glyphicon glyphicon-trash" style="background: transparent; border: none;" type="submit"></button>
-                    </form>
-                </div>
+                @{
+                    if (User.IsInRole("Admin") || comm.ApplicationUserId == ViewBag.utilizatorCurent)
+                    {
+                        <div style="display: inline-block; float: left; margin-right: 15px">
+                            <a class="glyphicon glyphicon-pencil" href="/Comments/Edit/@comm.CommentId"></a>
+                        </div>
+                        <div style="display: inline-block; float: left">
+                            <form method="post" action="/Comments/Delete/@comm.CommentId">
+                                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                                <button class="glyphicon glyphicon-trash" style="background: transparent; border: none;" type="submit"></button>
+                            </form>
+                        </div>
+                    }
+                }
             </div>
         </div>
         <div class="col-md-2"></div>
