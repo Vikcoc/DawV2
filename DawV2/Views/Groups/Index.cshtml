@@ -1,4 +1,5 @@
 ﻿@using DawV2.Models
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Index";
@@ -8,7 +9,9 @@
 <div class="container-fluid bg-success" style="margin-top: 20px;">@ViewBag.Message</div>
 <a href="/Groups/New" class="btn btn-success">Adauga Grup</a>
 <hr />
-
+@{
+    var userId = User.Identity.GetUserId();
+}
 @foreach (Group group in ViewBag.Groups)
 {
     <div class="container-fluid bg-info" style="margin-top: 20px; padding-bottom: 15px">
@@ -20,6 +23,12 @@
                 @Html.HttpMethodOverride(HttpVerbs.Delete)
                 <button type="submit" class="btn btn-danger">Sterge</button>
             </form>
+            @if (!group.UserGroups.Select(x => x.ApplicationUserId).Contains(userId))
+            {
+                <form class="pull-right" method="post" action="/Groups/Adhere/@group.GroupId">
+                    <button type="submit" class="btn btn-info">Adera</button>
+                </form>
+            }
 
         </div>
     </div>
