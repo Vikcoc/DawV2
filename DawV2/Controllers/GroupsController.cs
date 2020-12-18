@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using DawV2.Models;
 using Microsoft.AspNet.Identity;
@@ -20,7 +22,8 @@ namespace DawV2.Controllers
                 ViewBag.message = TempData["message"].ToString();
             }
 
-            ViewBag.Groups = _context.Groups.ToList();
+            var userId = User.Identity.GetUserId();
+            ViewBag.Groups = _context.Groups.Include(x => x.UserGroups/*.Where(y => y.ApplicationUserId == userId)*/).ToList();
             return View();
         }
 
@@ -57,7 +60,7 @@ namespace DawV2.Controllers
 
         public ActionResult Show(int id)
         {
-            var group = _context.Groups.Include("GroupMessages").FirstOrDefault(x => x.GroupId == id);
+            var group = _context.Groups.Include(x => x.GroupMessages).Include(x => x.UserGroups).FirstOrDefault(x => x.GroupId == id);
             if (group == null)
                 return RedirectToAction("Index");
             return View(group);
@@ -72,6 +75,9 @@ namespace DawV2.Controllers
         [HttpPut]
         public ActionResult Edit(Group group)
         {
+            var userId = User.Identity.GetUserId();
+            if (_context.UserGroups.Find(userId, group.GroupId) == null)
+                return RedirectToAction("Show", new { id = group.GroupId });
             try
             {
                 if (!ModelState.IsValid)
@@ -99,6 +105,12 @@ namespace DawV2.Controllers
         [HttpDelete]
         public ActionResult Delete(int id)
         {
+            var userId = User.Identity.GetUserId();
+            if (_context.UserGroups.Find(userId, id) == null)
+            {
+                TempData["message"] = "Nu esti parte din grup";
+                return RedirectToAction("Index");
+            }
             var group = _context.Groups.Find(id);
             if (group != null)
             {
@@ -106,6 +118,39 @@ namespace DawV2.Controllers
                 TempData["message"] = "Grupul cu numele: " + group.GroupName + " a fost sters";
             }
             _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Adhere(int id)
+        {
+            var userId = User.Identity.GetUserId();
+            if (_context.UserGroups.Find(userId, id) != null) 
+                return RedirectToAction("Index");
+            var group = _context.Groups.Find(id);
+            if(@group == null)
+                return RedirectToAction("Index");
+            _context.UserGroups.Add(new UserGroup
+            {
+                GroupId = id,
+                ApplicationUserId = userId
+            });
+            _context.SaveChanges();
+            TempData["message"] = "Ai intrat in grupul cu numele: " + @group.GroupName;
+            return RedirectToAction("Index");
+        }
+
+        [HttpDelete]
+        public ActionResult Leave(int id)
+        {
+            var userId = User.Identity.GetUserId();
+            var thing = _context.UserGroups.Find(userId, id);
+            if (thing == null)
+                return RedirectToAction("Index");
+            _context.UserGroups.Remove(thing);
+            _context.SaveChanges();
+            var group = _context.Groups.Find(id);
+            TempData["message"] = "Ai parasit grupul cu numele: " + group.GroupName;
             return RedirectToAction("Index");
         }
     }
