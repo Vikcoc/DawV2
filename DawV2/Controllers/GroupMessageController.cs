@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using DawV2.Models;
 using Microsoft.AspNet.Identity;
@@ -14,6 +15,10 @@ namespace DawV2.Controllers
         public ActionResult New(GroupMessage groupMessage)
         {
             groupMessage.ApplicationUserId = User.Identity.GetUserId();
+            var userGroup = _db.UserGroups.FirstOrDefault(x =>
+                x.GroupId == groupMessage.GroupId && x.ApplicationUserId == groupMessage.ApplicationUserId);
+            if(userGroup == null)
+                return Redirect("/Groups/Show/" + groupMessage.GroupId);
             try
             {
                 if (!ModelState.IsValid) 
@@ -46,6 +51,10 @@ namespace DawV2.Controllers
         public ActionResult Edit(int id)
         {
             var groupMessage = _db.GroupMessages.Find(id);
+            if(groupMessage == null)
+                return Redirect("/Groups");
+            if (groupMessage.ApplicationUserId != User.Identity.GetUserId())
+                return Redirect("/Groups/Show/" + groupMessage.GroupId);
             return View(groupMessage);
         }
 
@@ -55,7 +64,7 @@ namespace DawV2.Controllers
             try
             {
                 var oldMessage = _db.GroupMessages.Find(id);
-                if (!TryUpdateModel(oldMessage) || oldMessage == null)
+                if (!TryUpdateModel(oldMessage) || oldMessage == null || oldMessage.ApplicationUserId != User.Identity.GetUserId())
                     return Redirect("/Groups/Show/" + groupMessage.GroupId);
                 oldMessage.IsEdited = true;
                 oldMessage.Message = groupMessage.Message;

@@ -19,11 +19,18 @@
         <h2>@group.Description</h2>
         <div>
             <a class="btn btn-info" href="/Groups/Show/@group.GroupId">Show</a>
-            <form class="pull-right" method="post" action="/Groups/Delete/@group.GroupId">
-                @Html.HttpMethodOverride(HttpVerbs.Delete)
-                <button type="submit" class="btn btn-danger">Sterge</button>
-            </form>
-            @if (!group.UserGroups.Select(x => x.ApplicationUserId).Contains(userId))
+            @if (group.UserGroups.Select(x => x.ApplicationUserId).Contains(userId))
+            {
+                <form class="pull-right" method="post" action="/Groups/Delete/@group.GroupId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button type="submit" class="btn btn-danger">Sterge</button>
+                </form>
+                <form class="pull-right" method="post" action="/Groups/Leave/@group.GroupId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button type="submit" class="btn btn-danger">Paraseste</button>
+                </form>
+            }
+            else
             {
                 <form class="pull-right" method="post" action="/Groups/Adhere/@group.GroupId">
                     <button type="submit" class="btn btn-info">Adera</button>

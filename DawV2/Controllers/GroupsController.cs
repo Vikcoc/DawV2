@@ -60,7 +60,7 @@ namespace DawV2.Controllers
 
         public ActionResult Show(int id)
         {
-            var group = _context.Groups.Include("GroupMessages").FirstOrDefault(x => x.GroupId == id);
+            var group = _context.Groups.Include(x => x.GroupMessages).Include(x => x.UserGroups).FirstOrDefault(x => x.GroupId == id);
             if (group == null)
                 return RedirectToAction("Index");
             return View(group);
@@ -137,6 +137,20 @@ namespace DawV2.Controllers
             });
             _context.SaveChanges();
             TempData["message"] = "Ai intrat in grupul cu numele: " + @group.GroupName;
+            return RedirectToAction("Index");
+        }
+
+        [HttpDelete]
+        public ActionResult Leave(int id)
+        {
+            var userId = User.Identity.GetUserId();
+            var thing = _context.UserGroups.Find(userId, id);
+            if (thing == null)
+                return RedirectToAction("Index");
+            _context.UserGroups.Remove(thing);
+            _context.SaveChanges();
+            var group = _context.Groups.Find(id);
+            TempData["message"] = "Ai parasit grupul cu numele: " + group.GroupName;
             return RedirectToAction("Index");
         }
     }
