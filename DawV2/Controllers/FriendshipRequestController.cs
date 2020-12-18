@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 namespace DawV2.Controllers
 {
     [Authorize]
-    public class FriendshipRequestsController : Controller
+    public class FriendshipRequestController : Controller
     {
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
         // GET: FriendshipRequests
