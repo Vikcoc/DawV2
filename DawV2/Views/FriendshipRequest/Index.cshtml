@@ -1,0 +1,19 @@
+﻿@using DawV2.Models
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<h1>Cererile mele</h1>
+
+@foreach (FriendshipRequest request in ViewBag.Requests)
+{
+    <div style="text-align: center">
+        <div>@request.Requester.FirstName</div>
+        <div>@request.Requester.LastName</div>
+    </div>
+    <div style="text-align: center">@request.Message</div>
+    <hr/>
+
+}

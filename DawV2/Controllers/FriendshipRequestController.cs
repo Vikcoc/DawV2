@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,14 +10,16 @@ using Microsoft.AspNet.Identity;
 namespace DawV2.Controllers
 {
     [Authorize]
-    public class FriendshipRequestsController : Controller
+    public class FriendshipRequestController : Controller
     {
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
         // GET: FriendshipRequests
-        public int Index()
+        public ActionResult Index()
         {
             var num = User.Identity.GetUserId();
-            return _db.FriendshipRequests.Count(x => x.ReceiverId == num);
+            ViewBag.Requests = _db.FriendshipRequests.Where(x => x.IsSeen == false && x.ReceiverId == num).Include(x => x.Requester);
+            //return _db.FriendshipRequests.Count(x => x.RequesterId == num);
+            return View();
         }
 
         public ActionResult Send()
@@ -28,13 +31,19 @@ namespace DawV2.Controllers
         public ActionResult Send(FriendshipRequest request)
         {
             request.RequesterId = User.Identity.GetUserId();
+            if (_db.FriendshipRequests.FirstOrDefault(x =>
+                x.RequesterId == request.RequesterId && x.ReceiverId == request.ReceiverId) != null)
+            {
+                TempData["message"] = "Request already sent";
+                return RedirectToAction("Index");
+            }
             try
             {
                 if (ModelState.IsValid)
                 {
                     _db.FriendshipRequests.Add(request);
                     _db.SaveChanges();
-                    TempData["message"] = "Articolul a fost adaugat";
+                    TempData["message"] = "Cererea a fost adaugata";
                     return RedirectToAction("Index");
                 }
                 else
