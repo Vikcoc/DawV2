@@ -4,7 +4,7 @@
 }
 
 <h2>Index</h2>
-
+@*@Html.Partial("NoticeButtonPartial",new Notice{ApplicationUserId = "ceva ceva"})*@
 <h1>Cererile mele</h1>
 
 @foreach (FriendshipRequest request in ViewBag.Requests)
@@ -14,6 +14,6 @@
         <div>@request.Requester.LastName</div>
     </div>
     <div style="text-align: center">@request.Message</div>
-    <hr/>
+    <hr />
 
 }
