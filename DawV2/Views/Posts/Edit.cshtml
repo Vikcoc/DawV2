@@ -1,20 +1,21 @@
-﻿@model DawV2.Models.Post
-@{
+﻿@{
     ViewBag.Title = "Editeaza postarea";
 }
+
+@model DawV2.Models.Post
+@using Microsoft.AspNet.Identity
 
 <h2> @ViewBag.Title </h2>
 @using (Html.BeginForm(actionName: "Edit", controllerName: "Posts", routeValues: new { id = Model.PostId }))
 {
     @Html.HttpMethodOverride(HttpVerbs.Put)
-    @Html.Label("Content", "Continut Postare")
-    <br />
-    @Html.EditorFor(m => m.Content)
-    <br />
-    @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger" })
-    <br /><br />
-    
-    <button class="btn btn-sm btn-success" type="submit"> Editeaza postarea </button>
+    @Html.HiddenFor(m => m.ApplicationUserId, User.Identity.GetUserId());
+    @Html.Label("Content", "Continut Postare") <br />
+    @Html.EditorFor(m => m.Content) <br />
+    @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger" }) <br /><br />
+
+    <button class="btn btn-sm btn-primary" type="submit"> Editeaza postarea </button>
 }
+
 <hr />
 <a class="btn btn-primary" href="/Posts/Show/@Model.PostId"> Inapoi la postare </a>

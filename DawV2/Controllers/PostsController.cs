@@ -11,7 +11,6 @@ namespace DawV2.Controllers
     [Authorize(Roles = "User,Admin")]
     public class PostsController : Controller
     {
-        // GET: Posts
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
 
         public ActionResult Index()
@@ -76,8 +75,6 @@ namespace DawV2.Controllers
         [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id)
         {
-            ViewBag.utilizatorCurent = User.Identity.GetUserId();
-
             Post post = _db.Posts.Find(id);
             return View(post);
         }

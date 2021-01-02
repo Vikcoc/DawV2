@@ -1,12 +1,14 @@
-﻿@model DawV2.Models.Comment
-
-@{
+﻿@{
     ViewBag.Title = "Editeaza comentariu";
 }
+
+@model DawV2.Models.Comment
+@using Microsoft.AspNet.Identity
 
 <h2> @ViewBag.Title </h2>
 <form method="post" action="/Comments/Edit/@Model.CommentId">
     @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.HiddenFor(m => m.ApplicationUserId, User.Identity.GetUserId())
     @Html.HiddenFor(m => m.PostId, Model.PostId)
 
     @Html.Label("Content", "Comentariu") <br />

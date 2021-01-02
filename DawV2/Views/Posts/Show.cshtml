@@ -4,6 +4,7 @@
 }
 
 @model DawV2.Models.Post
+@using Microsoft.AspNet.Identity
 
 <h2> @ViewBag.Title </h2>
 <p> @ViewBag.message </p>
@@ -16,18 +17,79 @@
         @{
             if (User.IsInRole("Admin") || @Model.ApplicationUserId == ViewBag.utilizatorCurent)
             {
-                <hr />
-                <a class="btn btn-primary btn-sm pull-left" href="/Posts/Edit/@Model.PostId"> Editeaza postarea </a>
-                <form method="post" action="/Posts/Delete/@Model.PostId">
-                    @Html.HttpMethodOverride(HttpVerbs.Delete)
-                    <button class="btn btn-danger btn-sm pull-right" type="submit"> Sterge postarea </button>
-                </form>
+                <div class="butoane">
+                    <hr />
+                    <a class="btn btn-primary btn-sm pull-left" href="/Posts/Edit/@Model.PostId"> Editeaza postarea </a>
+                    <form method="post" action="/Posts/Delete/@Model.PostId">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button class="btn btn-danger btn-sm pull-right" type="submit"> Sterge postarea </button>
+                    </form>
+                </div>
             }
         }
+        <hr />
+        <div class="messages-container">
+            <ol class="messages">
+                @foreach (var comm in @Model.Comments)
+                {
+                    if (comm.ApplicationUser.Id == User.Identity.GetUserId())
+                    {
+                        <li class="mine">
+                            @comm.Content <br />
+                            <div style="display: inline-block; float: left; margin-right: 15px">
+                                <a class="glyphicon glyphicon-pencil" href="/Comments/Edit/@comm.CommentId" style="color:white"></a>
+                            </div>
+                            <div style="display: inline-block; float: right">
+                                <form method="post" action="/Comments/Delete/@comm.CommentId">
+                                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                                    <button class="glyphicon glyphicon-trash" style="background: transparent; border: none;" type="submit"></button>
+                                </form>
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <small> <strong> @comm.ApplicationUser.FirstName @comm.ApplicationUser.LastName: </strong> </small> <br />
+                                @comm.Content <br />
+                                <div style="display: inline-block; float: left; margin-right: 15px">
+                                    <a class="glyphicon glyphicon-pencil" href="/Comments/Edit/@comm.CommentId"></a>
+                                </div>
+                                <div style="display: inline-block; float: right">
+                                    <form method="post" action="/Comments/Delete/@comm.CommentId">
+                                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                                        <button class="glyphicon glyphicon-trash" style="background: transparent; border: none;" type="submit"></button>
+                                    </form>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <small> <strong> @comm.ApplicationUser.FirstName @comm.ApplicationUser.LastName: </strong> </small> <br />
+                                @comm.Content
+                            </li>
+                        }
+                    }
+                }
+            </ol>
+        </div>
+        <hr />
+        <div class="text-bar" style="width: 100%">
+            @using (Html.BeginForm(actionName: "New", controllerName: "Comments"))
+            {
+                @Html.HiddenFor(m => m.PostId, Model.PostId)
+                @Html.HiddenFor(m => m.IsEdited, false)
+                
+                @Html.TextBox("Content", "", new { @class = "form-control", style = "max-width: 100%" })
+            }
+        </div>
     </div>
 </div>
 
-<hr />
+<!---
 <br />
 @foreach (var comm in @Model.Comments)
 {
@@ -85,5 +147,5 @@
     </div>
 </div>
 <hr />
-
+    -->
 <a class="btn btn-primary" href="/Posts/Index"> Inapoi la lista de postari </a>
