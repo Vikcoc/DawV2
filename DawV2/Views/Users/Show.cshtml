@@ -57,7 +57,7 @@
                         if (!User.IsInRole("Admin") && Model.Id != User.Identity.GetUserId())
                         {
                             <div class="btn-group" role="group">
-                                <a class="btn btn-default" href="/FriendshipRequest/Send"> Trimite cerere de prietenie </a>
+                                <a class="btn btn-default" href="/FriendshipRequest/Send/@Model.Id"> Trimite cerere de prietenie </a>
                             </div>
                         }
                     }

@@ -19,18 +19,28 @@ namespace DawV2.Controllers
             var num = User.Identity.GetUserId();
             ViewBag.Requests = _db.FriendshipRequests.Where(x => x.IsSeen == false && x.ReceiverId == num).Include(x => x.Requester);
             //return _db.FriendshipRequests.Count(x => x.RequesterId == num);
+
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.message = TempData["message"];
+            }
+
             return View();
         }
 
-        public ActionResult Send()
+        public ActionResult Send(string id)
         {
+            ViewBag.id = id;
             return View();
         }
 
         [HttpPost]
-        public ActionResult Send(FriendshipRequest request)
+        public ActionResult Send(string id, FriendshipRequest request)
         {
+
             request.RequesterId = User.Identity.GetUserId();
+            request.ReceiverId = id;
+
             if (_db.FriendshipRequests.FirstOrDefault(x =>
                 x.RequesterId == request.RequesterId && x.ReceiverId == request.ReceiverId) != null)
             {
@@ -54,6 +64,43 @@ namespace DawV2.Controllers
             catch (Exception)
             {
                 return View(request);
+            }
+        }
+        
+        public ActionResult Accept(int id)
+        {
+            try
+            {
+                var oldRequest = _db.FriendshipRequests.Find(id);
+                if(TryUpdateModel(oldRequest))
+                {
+                    oldRequest.IsAccepted = true;
+                    _db.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
+
+            }
+            catch(Exception e)
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpDelete]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var request = _db.FriendshipRequests.Find(id);
+                _db.FriendshipRequests.Remove(request);
+                _db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch(Exception e)
+            {
+                return RedirectToAction("Index");
             }
         }
     }
