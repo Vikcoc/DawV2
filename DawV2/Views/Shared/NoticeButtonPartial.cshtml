@@ -1,0 +1,38 @@
+﻿@model DawV2.Models.Notice
+
+
+<div style="position: relative; height: initial;">
+    
+    <div style="display: block">
+        <button onclick="myFunction(@ViewBag.Id)" style="display: inline">Click Me</button>
+        <form method="post" action="/Notice/New" id="@("myDIV" + ViewBag.Id)" style="display: none; position: absolute; background: aqua;">
+            @Html.HiddenFor(x => x.ApplicationUserId, Model.ApplicationUserId)
+            @Html.ValidationMessageFor(x => x.Content, null, new {@class = "text-danger"})
+            <br/>
+            @Html.LabelFor(x => x.Content, "Motivul")
+            <br/>
+            @Html.EditorFor(x => x.Content)
+            <br/>
+            <button type="submit" class="btn btn-info">Salveaza</button>
+        </form>
+    </div>
+</div>
+
+@Scripts.Render("~/Scripts/NoticeButton.js")
+@*<script>
+    var zin = 0;
+    function myFunction(val) {
+        var id = "myDIV" + val;
+        //console.log(id);
+        var x = document.getElementById(id);
+        if (x.style.display === "none") {
+            x.style.display = "inline-block";
+            zin++;
+            x.style.zIndex = zin;
+        } else {
+            x.style.display = "none";
+            x.style.zIndex = 0;
+            //zin--;
+        }
+    }
+</script>*@

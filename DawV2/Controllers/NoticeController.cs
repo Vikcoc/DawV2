@@ -47,6 +47,8 @@ namespace DawV2.Controllers
                     return View(notice);
                 _db.Notices.Add(notice);
                 _db.SaveChanges();
+                if (Request.UrlReferrer != null) 
+                    return Redirect(Request.UrlReferrer.ToString());
                 return RedirectToAction("Index");
             }
             catch (Exception)

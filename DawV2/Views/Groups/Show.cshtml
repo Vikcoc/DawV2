@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using DawV2.Models
+@using Microsoft.AspNet.Identity
 @model DawV2.Models.Group
 @{
     ViewBag.Title = "Show";
@@ -12,13 +13,19 @@
     <a class="btn btn-success pull-right" href="/Groups/Index">Back to groups</a>
 </div>
 <hr />
+@{
+    var nom = 0;
+}
 
 @foreach (var message in Model.GroupMessages)
 {
+    {
+        nom++;
+    }
     <div class="container">
         <div class="row">
             <div class="col-md-2"></div>
-            <div class="col-md-8 bg-success">
+            <div class="col-md-8 alert-success">
                 <div>
                     <div style="text-align: center">@message.Message</div>
                     @if (message.IsEdited)
@@ -28,24 +35,29 @@
                         </div>
                     }
                 </div>
-                @if(message.ApplicationUserId == User.Identity.GetUserId())
+                @if (message.ApplicationUserId == User.Identity.GetUserId())
                 {
-                    <div style="display: inline-block; float: left; margin-right: 15px">
-                        <a class="glyphicon glyphicon-pencil" href="/GroupMessage/Edit/@message.MessageId"></a>
-                    </div>
-                    <div style="display: inline-block; float: left">
-                        <form method="post" action="/GroupMessage/Delete/@message.MessageId">
-                            @Html.HttpMethodOverride(HttpVerbs.Delete)
-                            <button class="glyphicon glyphicon-trash" style="background: transparent; border: none;" type="submit"></button>
-                        </form>
+                    <div style="display: flex">
+                        <div style="display: inline-block; margin-right: 15px">
+                            <a class="glyphicon glyphicon-pencil" href="/GroupMessage/Edit/@message.MessageId"></a>
+                        </div>
+                        <div style="display: inline-block;">
+                            <form method="post" action="/GroupMessage/Delete/@message.MessageId">
+                                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                                <button class="glyphicon glyphicon-trash" style="background: transparent; border: none;" type="submit"></button>
+                            </form>
+                        </div>
                     </div>
 
                 }
+                @Html.Partial("NoticeButtonPartial", new Notice { ApplicationUserId = message.ApplicationUserId }, new ViewDataDictionary{{"Id",nom}})
             </div>
         </div>
-        <div class="col-md-2"></div>
+        <hr/>
+        @*<div class="col-md-2"></div>*@
     </div>
 }
+
 
 @if(Model.UserGroups.Select(x => x.ApplicationUserId).Contains(User.Identity.GetUserId()))
 {
