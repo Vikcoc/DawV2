@@ -163,6 +163,18 @@ h1 {
     background: #eee;
 }
 
+.stealing {
+    list-style-type: none;
+    margin: 2px 8px 2px 0;
+    border-radius: 8px;
+    padding: 8px;
+    color: black;
+    position: absolute;
+    display: none;
+    z-index: 2;
+    background: #eee;
+}
+
 .messages li.mine {
     margin: 2px 0 2px 8px;
     align-self: flex-end;

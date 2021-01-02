@@ -4,7 +4,11 @@
 }
 
 @model DawV2.Models.Post
+@using DawV2.Models
 @using Microsoft.AspNet.Identity
+@{
+    var num = 0;
+}
 
 <h2> @ViewBag.Title </h2>
 <p> @ViewBag.message </p>
@@ -32,6 +36,7 @@
             <ol class="messages">
                 @foreach (var comm in @Model.Comments)
                 {
+                    num++;
                     if (comm.ApplicationUser.Id == User.Identity.GetUserId())
                     {
                         <li class="mine">
@@ -63,6 +68,7 @@
                                         <button class="glyphicon glyphicon-trash" style="background: transparent; border: none;" type="submit"></button>
                                     </form>
                                 </div>
+                                @Html.Partial("NoticeButtonPartial", new Notice { ApplicationUserId = comm.ApplicationUserId }, new ViewDataDictionary { { "Id", num } })
                             </li>
                         }
                         else
@@ -82,7 +88,7 @@
             {
                 @Html.HiddenFor(m => m.PostId, Model.PostId)
                 @Html.HiddenFor(m => m.IsEdited, false)
-                
+
                 @Html.TextBox("Content", "", new { @class = "form-control", style = "max-width: 100%" })
             }
         </div>
