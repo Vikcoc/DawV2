@@ -1,56 +1,81 @@
 ﻿@{
+    /**/
+
     ViewBag.Title = "Profil utilizator";
 }
 
 @model DawV2.Models.ApplicationUser
-
+@using DawV2.Controllers
 
 <br /> <br />
 <h1> @Model.FirstName @Model.LastName </h1>
 <br /> <br />
 
-<div class="row">
-    <div class="col-lg-9">
-        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <div class="btn-group" role="group">
-                <a class="btn btn-default" href="#about"> Despre </a>
-            </div>
-            <div class="btn-group" role="group">
-                <a class="btn btn-default" href="#posts"> Postari </a>
-            </div>
-            <div class="btn-group" role="group">
-                <a class="btn btn-default" href="#friends"> Prieteni </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-3">
-        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            @{
-                if (User.IsInRole("Admin") && (string)Model.Id != ViewBag.utilizatorCurent)
-                {
-                    <div class="btn-group" role="group" style="padding-left: 0px; padding-right: 10px;">
-                        <form method="post" action="/Users/Delete/@Model.Id">
-                            @Html.HttpMethodOverride(HttpVerbs.Delete)
-                            <button class="btn btn-danger" type="submit"> Sterge profil </button>
-                        </form>
-                    </div>
-                }
-            }
-
-            @{
-                if (User.IsInRole("Admin") || (string)Model.Id == ViewBag.utilizatorCurent)
-                {
+@{
+    if (User.Identity.IsAuthenticated == true)
+    {
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group" role="group">
-                        <a class="btn btn-primary" href="/Users/Edit/@Model.Id"> Editeaza profil </a>
+                        <a class="btn btn-default" href="#about"> Despre </a>
                     </div>
-                }
-            }
-        </div>
-    </div>
-</div>
-<br />
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default" href="#posts"> Postari </a>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default" href="#friends"> Prieteni </a>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-lg-3">
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    @{
+                        if (User.IsInRole("Admin") && (string)Model.Id != ViewBag.utilizatorCurent)
+                        {
+                            <div class="btn-group" role="group" style="padding-left: 0px; padding-right: 10px;">
+                                <form method="post" action="/Users/Delete/@Model.Id">
+                                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                                    <button class="btn btn-danger" type="submit"> Sterge profil </button>
+                                </form>
+                            </div>
+                        }
+                    }
+
+                    @{
+                        if (User.IsInRole("Admin") || (string)Model.Id == ViewBag.utilizatorCurent)
+                        {
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-primary" href="/Users/Edit/@Model.Id"> Editeaza profil </a>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <br /> <br />
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default" href="#about"> Despre </a>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default" href="#posts"> Postari </a>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default" href="#friends"> Prieteni </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br /> <br />
+    }
+}
 
 <div id="about">
     <h3 style="text-align: center"> Despre </h3>
@@ -59,8 +84,6 @@
             <small> <strong> Nume: </strong> @Model.LastName </small> <br />
             <small> <strong> Prenume: </strong> @Model.FirstName </small> <br />
             <small> <i class="glyphicon glyphicon-envelope"></i> <stong> Email utilizator: </stong> @Model.Email  </small> <br />
-
-            <br /><br />
 
             @if (@Model.PhoneNumber != null)
             {
@@ -72,8 +95,16 @@
 </div>
 <hr />
 
+<br /> <br />
 <div id="posts">
     <h3 style="text-align: center"> Postari </h3>
+    @if (@Model.Posts.Count() == 0)
+    {
+        <br />
+        <div style="text-align:center">
+            Nu exista postari facute de acest utilizator!
+        </div>
+    }
     @foreach (var postare in @Model.Posts)
     {
         <div class="panel panel-default">
@@ -82,9 +113,53 @@
             </div>
             <div class="panel-body">
                 <p> @postare.Content </p>
-                <hr />
-                <a class="btn btn-primary btn-sm" href="/Posts/Show/@postare.PostId"> Afiseaza postarea </a>
+                @{
+                    if (User.Identity.IsAuthenticated == true)
+                    {
+                        <hr />
+                        <a class="btn btn-primary btn-sm" href="/Posts/Show/@postare.PostId"> Afiseaza postarea </a>
+                    }
+                }
             </div>
         </div>
     }
 </div>
+
+<br /> <br />
+       <div id="friends">
+           <h3 style="text-align:center"> Prieteni </h3>
+           <br />
+           @foreach (var usr in @Model.Received)
+           {
+               //if (usr.IsAccepted == true)
+               //{
+                   <div class="panel panel-default">
+                       <div class="panel-body">
+                           <strong> Nume: </strong> @usr.Requester.LastName <br />
+                           <strong> Prenume: </strong> @usr.Requester.FirstName <br />
+                           <i class="glyphicon glyphicon-envelope"></i> <strong> Email: </strong> <span class="label label-default"> @usr.Requester.Email </span>
+                       </div>
+                       <div class="panel-footer">
+                           <a class="btn btn-sm btn-success" href="/Users/Show/@usr.RequesterId"> Vizualizare profil </a>
+                       </div>
+                   </div>
+              // }
+           }
+
+           @foreach (var usr in @Model.Requested)
+           {
+               //if (usr.IsAccepted == true)
+               //{
+                   <div class="panel panel-default">
+                       <div class="panel-body">
+                           <strong> Nume: </strong> @usr.Receiver.LastName <br />
+                           <strong> Prenume: </strong> @usr.Receiver.FirstName <br />
+                           <i class="glyphicon glyphicon-envelope"></i> <strong> Email: </strong> <span class="label label-default"> @usr.Receiver.Email </span>
+                       </div>
+                       <div class="panel-footer">
+                           <a class="btn btn-sm btn-success" href="/Users/Show/@usr.ReceiverId"> Vizualizare profil </a>
+                       </div>
+                   </div>
+               //}
+           }
+       </div>

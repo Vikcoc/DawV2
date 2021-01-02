@@ -13,7 +13,6 @@ namespace DawV2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Users
         public ActionResult Search()
         {
             ViewBag.utilizatorCurent = User.Identity.GetUserId();

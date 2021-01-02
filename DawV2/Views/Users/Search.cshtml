@@ -4,6 +4,7 @@
 }
 
 <h3>@ViewBag.Title</h3>
+<br />
 
 @model DawV2.Models.ApplicationUser
 @using (Html.BeginForm(actionName: "Search", controllerName: "Users"))
@@ -28,8 +29,8 @@
         }
         else
         {
-            <div>
-                Rezulatele cautarii: <br /> <br />
+            <div style="text-align:center">
+                Rezulatele cautarii: <br /> <br /> 
             </div>
         }
 
