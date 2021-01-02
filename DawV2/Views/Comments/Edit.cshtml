@@ -12,8 +12,7 @@
     @Html.HiddenFor(m => m.PostId, Model.PostId)
 
     @Html.Label("Content", "Comentariu") <br />
-    @Html.Editor("Content") <br /> <br />
-    <button class="btn btn-success" type="submit"> Editeaza comentariul </button>
+    @Html.EditorFor(m => m.Content, new { @class = "form-control" }) <br /> <br />
+    <button class="btn btn-primary" type="submit"> Editeaza comentariul </button>
+    <a class="btn btn-primary pull-right" href="/Posts/Show/@Model.PostId"> Inapoi la postare </a>
 </form>
-<hr />
-<a class="btn btn-primary" href="/Posts/Show/@Model.PostId"> Inapoi la postare </a>

@@ -16,7 +16,6 @@ namespace DawV2.Controllers
         public ActionResult Index()
         {
             ViewBag.posts = _db.Posts;
-            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"];
@@ -27,7 +26,6 @@ namespace DawV2.Controllers
         public ActionResult Show(int id)
         {
             Post post = _db.Posts.Find(id);
-            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"];
