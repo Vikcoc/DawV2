@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,7 +16,7 @@ namespace DawV2.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.posts = _db.Posts;
+            ViewBag.posts = _db.Posts.Include(x => x.ApplicationUser);
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"];
