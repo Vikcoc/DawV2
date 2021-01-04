@@ -52,6 +52,13 @@
                             </div>
                         }
                     }
+                    
+                    @if (Model.Id == User.Identity.GetUserId())
+                    {
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-primary" href="/Notice/Index/@Model.Id"> Notificarile mele </a>
+                        </div>
+                    }
 
                     @{
                         if (!User.IsInRole("Admin") && Model.Id != User.Identity.GetUserId())

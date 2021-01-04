@@ -12,6 +12,7 @@ namespace DawV2.Models
 
         public string ApplicationUserId { get; set; }
         public string Content { get; set; }
+        public bool Seen { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
     }
