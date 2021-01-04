@@ -8,11 +8,11 @@
         <form class="stealing" method="post" action="/Notice/New" id="@("myDIV" + ViewBag.Id)" style="display: none;">
             @Html.HiddenFor(x => x.ApplicationUserId, Model.ApplicationUserId)
             @*@Html.ValidationMessageFor(x => x.Content, null, new {@class = "text-danger"})*@
-            <br/>
+            <br />
             @Html.LabelFor(x => x.Content, "Motivul")
-            <br/>
-            @Html.EditorFor(x => x.Content)
-            <br/>
+            <br />
+            @Html.TextAreaFor(x => x.Content, new { style = "width: 250px; height: 100px;" })
+            <br />
             <button type="submit" class="btn btn-info">Save</button>
         </form>
     </div>

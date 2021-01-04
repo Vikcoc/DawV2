@@ -11,6 +11,7 @@ namespace DawV2.Models
         [Key] public int NoticeId { get; set; }
 
         public string ApplicationUserId { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; }
         public bool Seen { get; set; }
 
