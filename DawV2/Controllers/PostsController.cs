@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,13 +12,11 @@ namespace DawV2.Controllers
     [Authorize(Roles = "User,Admin")]
     public class PostsController : Controller
     {
-        // GET: Posts
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
 
         public ActionResult Index()
         {
-            ViewBag.posts = _db.Posts;
-            ViewBag.utilizatorCurent = User.Identity.GetUserId();
+            ViewBag.posts = _db.Posts.Include(x => x.ApplicationUser);
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"];
@@ -28,7 +27,6 @@ namespace DawV2.Controllers
         public ActionResult Show(int id)
         {
             Post post = _db.Posts.Find(id);
-            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"];
@@ -76,8 +74,6 @@ namespace DawV2.Controllers
         [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id)
         {
-            ViewBag.utilizatorCurent = User.Identity.GetUserId();
-
             Post post = _db.Posts.Find(id);
             return View(post);
         }

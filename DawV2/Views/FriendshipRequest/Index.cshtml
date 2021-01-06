@@ -1,19 +1,27 @@
 ﻿@using DawV2.Models
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Cererile mele";
 }
 
-<h2>Index</h2>
-
-<h1>Cererile mele</h1>
-
+<h2> @ViewBag.Title </h2> <br />
+@*@Html.Partial("NoticeButtonPartial",new Notice{ApplicationUserId = "ceva ceva"})*@
+@ViewBag.message <br />
 @foreach (FriendshipRequest request in ViewBag.Requests)
 {
-    <div style="text-align: center">
-        <div>@request.Requester.FirstName</div>
-        <div>@request.Requester.LastName</div>
-    </div>
-    <div style="text-align: center">@request.Message</div>
-    <hr/>
+    if (request.IsAccepted == false)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <small> <strong> Nume: </strong> @request.Requester.LastName </small> <br />
+                <small> <strong> Prenume: </strong> @request.Requester.FirstName </small> <br />
+                <small> <strong> Mesaj: </strong>@request.Message </small> <hr />
 
+                <a class="btn btn-success pull-left" href="/FriendshipRequest/Accept/@request.FriendshipRequestId"> Accepta </a>
+                <form method="post" action="/FriendshipRequest/Delete/@request.FriendshipRequestId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete);
+                    <button class="btn btn-danger pull-right" type="submit"> Sterge </button>
+                </form>
+            </div>
+        </div>
+    }
 }

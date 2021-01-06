@@ -10,18 +10,28 @@ using Microsoft.AspNet.Identity;
 
 namespace DawV2.Controllers
 {
-    [Authorize/*(Roles = "Admin")*/]
+    [Authorize]
     public class NoticeController : Controller
     {
         // GET: Notice
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
 
-        [Authorize]
         public async Task<ActionResult> Index()
         {
             var id = User.Identity.GetUserId();
-            ViewBag.Notices = await _db.Notices.Where(x => x.ApplicationUserId == id).ToListAsync();
+            ViewBag.Notices = await _db.Notices.Where(x => x.ApplicationUserId == id && x.Seen == false).ToListAsync();
             return View();
+        }
+
+        public async Task<ActionResult> OkIt(int id)
+        {
+            var notice = await _db.Notices.FindAsync(id);
+            var userId = User.Identity.GetUserId();
+            if (notice?.ApplicationUserId != userId)
+                return Redirect(Request.UrlReferrer.ToString());
+            notice.Seen = true;
+            await _db.SaveChangesAsync();
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         [Authorize(Roles = "Admin")]
@@ -47,6 +57,8 @@ namespace DawV2.Controllers
                     return View(notice);
                 _db.Notices.Add(notice);
                 _db.SaveChanges();
+                if (Request.UrlReferrer != null) 
+                    return Redirect(Request.UrlReferrer.ToString());
                 return RedirectToAction("Index");
             }
             catch (Exception)

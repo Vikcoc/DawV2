@@ -196,6 +196,10 @@
     <Compile Include="Migrations\202012151344017_User.Designer.cs">
       <DependentUpon>202012151344017_User.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101041903135_OkNotice.cs" />
+    <Compile Include="Migrations\202101041903135_OkNotice.Designer.cs">
+      <DependentUpon>202101041903135_OkNotice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -215,14 +219,15 @@
     <Content Include="App_Data\MyDataBase_log.ldf">
       <DependentUpon>MyDataBase.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\bootstrap-darkly.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Database.config">
@@ -239,6 +244,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\NoticeButton.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -291,6 +297,7 @@
     <Content Include="Views\GroupMessage\Edit.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\FriendshipRequest\Index.cshtml" />
+    <Content Include="Views\Shared\NoticeButtonPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -318,6 +325,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012151344017_User.resx">
       <DependentUpon>202012151344017_User.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101041903135_OkNotice.resx">
+      <DependentUpon>202101041903135_OkNotice.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

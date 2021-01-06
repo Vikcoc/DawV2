@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -31,7 +33,7 @@
                     {
                         <li>@Html.ActionLink("Afisare postari", "Index", "Posts")</li>
                         <li>@Html.ActionLink("Afisare grupuri", "Index", "Groups")</li>
-                        <li>@Html.ActionLink("Pagina de profil", "Show", "Users", new { id = ViewBag.utilizatorCurent }, null)</li>
+                        <li>@Html.ActionLink("Pagina de profil", "Show", "Users", new { id = User.Identity.GetUserId() }, null)</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

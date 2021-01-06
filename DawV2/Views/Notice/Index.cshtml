@@ -4,11 +4,17 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
 <h1>My Notices</h1>
 @foreach (Notice notice in ViewBag.Notices)
 {
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <strong>@notice.Content</strong>
+        </div>
+        <div class="panel-heading">
+            <a class="btn btn-primary btn-sm" href="/Notice/OkIt/@notice.NoticeId"> Ok </a>
+        </div>
+    </div>
     <div class="container-fluid bg-info" style="margin-top: 20px; padding-bottom: 15px">
         <h2>@notice.Content</h2>
     </div>

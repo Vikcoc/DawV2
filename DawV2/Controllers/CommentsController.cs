@@ -12,13 +12,11 @@ namespace DawV2.Controllers
     {
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
 
-
         [HttpPost]
         [Authorize(Roles = "User,Admin")]
         public ActionResult New(Comment comment)
         {
-            ViewBag.utilizatorCurent = User.Identity.GetUserId();
-            comment.ApplicationUserId = _db.Users.First().Id;
+            comment.ApplicationUserId = User.Identity.GetUserId();
             try
             {
                 if (ModelState.IsValid)
@@ -60,7 +58,6 @@ namespace DawV2.Controllers
         [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id)
         {
-            ViewBag.utilizatorCurent = User.Identity.GetUserId();
             Comment comment = _db.Comments.Find(id);
             return View(comment);
         }

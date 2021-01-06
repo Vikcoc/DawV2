@@ -6,12 +6,7 @@
 <h2>Send</h2>
 @model  DawV2.Models.FriendshipRequest
 
-<form method="post" action="">
-    @Html.LabelFor(x => x.ReceiverId, "Id Destinatar")
-    <br />
-    @Html.TextBoxFor(x => x.ReceiverId, null, new { @class = "form-control" })
-    @Html.ValidationMessageFor(x => x.ReceiverId, null, new { @class = "text-danger" })
-    <br />
+<form method="post" action="/FriendshipRequest/Send/@ViewBag.id">
     @Html.LabelFor(x => x.Message, "Mesaj cerere")
     <br />
     @Html.TextAreaFor(x => x.Message, new { @class = "form-control" })

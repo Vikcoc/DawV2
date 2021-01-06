@@ -9,11 +9,11 @@ using System.Web.Mvc;
 
 namespace DawV2.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Users
         public ActionResult Search()
         {
             ViewBag.utilizatorCurent = User.Identity.GetUserId();
