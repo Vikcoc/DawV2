@@ -1,10 +1,11 @@
 ﻿@using DawV2.Models
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h1>My Notices</h1>
+<h1> Notificarile mele </h1> <br />
 @foreach (Notice notice in ViewBag.Notices)
 {
     <div class="panel panel-default">
@@ -15,8 +16,5 @@
             <a class="btn btn-primary btn-sm" href="/Notice/OkIt/@notice.NoticeId"> Ok </a>
         </div>
     </div>
-    <div class="container-fluid bg-info" style="margin-top: 20px; padding-bottom: 15px">
-        <h2>@notice.Content</h2>
-    </div>
-    <hr />
 }
+<a class="btn btn-primary" href="/Users/Show/@User.Identity.GetUserId()"> Inapoi la pagina de profil </a>

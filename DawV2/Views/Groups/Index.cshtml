@@ -21,7 +21,7 @@
         @*<h1>@group.GroupName</h1>*@
         @*<h2>@group.Description</h2>*@
         <div class="panel-body">
-            <div>@group.Description</div>
+            <div>@group.Description</div> <br />
             <a class="btn btn-primary btn-sm" href="/Groups/Show/@group.GroupId">Show</a>
             @if (group.UserGroups.Select(x => x.ApplicationUserId).Contains(userId))
             {
@@ -29,7 +29,7 @@
                     @Html.HttpMethodOverride(HttpVerbs.Delete)
                     <button type="submit" class="btn btn-danger btn-sm">Sterge</button>
                 </form>
-                <form class="pull-right" method="post" action="/Groups/Leave/@group.GroupId">
+                <form class="pull-right" method="post" action="/Groups/Leave/@group.GroupId"  style="margin-right:15px">
                     @Html.HttpMethodOverride(HttpVerbs.Delete)
                     <button type="submit" class="btn btn-danger btn-sm">Paraseste</button>
                 </form>

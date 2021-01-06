@@ -2,7 +2,7 @@
 @using Microsoft.AspNet.Identity
 @model DawV2.Models.Group
 @{
-    ViewBag.Title = "Show";
+    ViewBag.Title = "Afisare grup";
 }
 
 @{
@@ -12,7 +12,7 @@
 <h2>Show</h2>
 <div class="panel panel-default">
     <div class="panel-body">
-        <p> @Model.GroupName </p>
+        <h3 style="text-align:center"> @Model.GroupName  </h3> <br />
         <p> @Model.Description </p>
         @{
             if (User.IsInRole("Admin") || @Model.UserGroups.Select(x => x.ApplicationUserId).Contains(User.Identity.GetUserId()))
@@ -27,75 +27,76 @@
                 </div>
             }
         }
-    </div>
-    <hr />
-    <div class="messages-container">
-        <ol class="messages">
-            @foreach (GroupMessage message in @Model.GroupMessages)
-            {
-                num++;
-                if (message.ApplicationUserId == User.Identity.GetUserId())
+        <hr />
+        <div class="messages-container">
+            <ol class="messages">
+                @foreach (GroupMessage message in @Model.GroupMessages)
                 {
-                    <li class="mine">
-                        @message.Message
-                        <br />
-                        <div style="display: inline-block; float: left; margin-right: 15px">
-                            <a class="glyphicon glyphicon-pencil" href="/GroupMessage/Edit/@message.MessageId" style="color:white"></a>
-                        </div>
-                        <div style="display: inline-block; float: right">
-                            <form method="post" action="/GroupMessage/Delete/@message.MessageId">
-                                @Html.HttpMethodOverride(HttpVerbs.Delete)
-                                <button class="glyphicon glyphicon-trash" style="background: transparent; border: none;" type="submit"></button>
-                            </form>
-                        </div>
-                    </li>
-                }
-                else
-                {
-                    if (User.IsInRole("Admin"))
+                    num++;
+                    if (message.ApplicationUserId == User.Identity.GetUserId())
                     {
-                        <li>
-                            <small> <strong> @message.ApplicationUser.FirstName @message.ApplicationUser.LastName: </strong> </small> <br />
-                            @message.Message <br />
-                            @*<div style="display: inline-block; float: left; margin-right: 15px">
-                                    <a class="glyphicon glyphicon-pencil" href="/GroupMessage/Edit/@message.MessageId"></a>
-                                </div>*@
-                            <div>
+                        <li class="mine">
+                            @message.Message
+                            <br />
+                            <div style="display: inline-block; float: left; margin-right: 15px">
+                                <a class="glyphicon glyphicon-pencil" href="/GroupMessage/Edit/@message.MessageId" style="color:white"></a>
+                            </div>
+                            <div style="display: inline-block; float: right">
                                 <form method="post" action="/GroupMessage/Delete/@message.MessageId">
                                     @Html.HttpMethodOverride(HttpVerbs.Delete)
-                                    <button class="glyphicon glyphicon-trash" style="background: transparent; border: none; float: right" type="submit"></button>
+                                    <button class="glyphicon glyphicon-trash" style="background: transparent; border: none;" type="submit"></button>
                                 </form>
                             </div>
-                            @Html.Partial("NoticeButtonPartial", new Notice
-                            {
-                                ApplicationUserId = message.ApplicationUserId,
-                                Content = "Your comment \"" + message.Message + "\" is not adequate because "
-
-                            }, new ViewDataDictionary{{"Id",num}})
                         </li>
                     }
                     else
                     {
-                        <li>
-                            <small> <strong> @message.ApplicationUser.FirstName @message.ApplicationUser.LastName: </strong> </small> <br />
-                            @message.Message
-                        </li>
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <small> <strong> @message.ApplicationUser.FirstName @message.ApplicationUser.LastName: </strong> </small> <br />
+                                @message.Message <br />
+                                @*<div style="display: inline-block; float: left; margin-right: 15px">
+                                        <a class="glyphicon glyphicon-pencil" href="/GroupMessage/Edit/@message.MessageId"></a>
+                                    </div>*@
+                                <div>
+                                    <form method="post" action="/GroupMessage/Delete/@message.MessageId">
+                                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                                        <button class="glyphicon glyphicon-trash" style="background: transparent; border: none; float: right" type="submit"></button>
+                                    </form>
+                                </div>
+                                @Html.Partial("NoticeButtonPartial", new Notice
+                                {
+                                    ApplicationUserId = message.ApplicationUserId,
+                                    Content = "Your comment \"" + message.Message + "\" is not adequate because "
+
+                                }, new ViewDataDictionary{{"Id",num}})
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <small> <strong> @message.ApplicationUser.FirstName @message.ApplicationUser.LastName: </strong> </small> <br />
+                                @message.Message
+                            </li>
+                        }
                     }
                 }
-            }
-        </ol>
-    </div>
-    <hr />
-    @if (Model.UserGroups.Select(x => x.ApplicationUserId).Contains(User.Identity.GetUserId()))
-    {
-        <div class="text-bar" style="width: 100%">
-            @using (Html.BeginForm(actionName: "New", controllerName: "GroupMessage"))
-            {
-                @Html.Hidden("GroupId", Model.GroupId)
-                @Html.Hidden("IsEdited", false)
-
-                @Html.TextBox("Message", "", new {@class = "form-control", style = "max-width: 100%"})
-            }
+            </ol>
         </div>
-    }
+        <hr />
+        @if (Model.UserGroups.Select(x => x.ApplicationUserId).Contains(User.Identity.GetUserId()))
+        {
+            <div class="text-bar" style="width: 100%">
+                @using (Html.BeginForm(actionName: "New", controllerName: "GroupMessage"))
+                {
+                    @Html.Hidden("GroupId", Model.GroupId)
+                    @Html.Hidden("IsEdited", false)
+
+                    @Html.TextBox("Message", "", new {@class = "form-control", style = "max-width: 100%"})
+                }
+            </div>
+        }
+    </div>
 </div>
+<a class="btn btn-primary" href="/Groups/Index"> Inapoi la grupuri </a>
