@@ -68,13 +68,19 @@
                                         <button class="glyphicon glyphicon-trash" style="background: transparent; border: none;" type="submit"></button>
                                     </form>
                                 </div>
-                                @Html.Partial("NoticeButtonPartial", new Notice
+                                @*@Html.Partial("NoticeButtonPartial", new Notice
                                 {
                                     ApplicationUserId = comm.ApplicationUserId,
                                     Content = "Your comment \"" + comm.Content + "\" is not adequate because "
 
-                                }, new ViewDataDictionary { { "Id", num } })
+                                }, new ViewDataDictionary { { "Id", num } })*@
                             </li>
+                            @Html.Partial("NoticeButtonPartial", new Notice
+                            {
+                                ApplicationUserId = comm.ApplicationUserId,
+                                Content = "Your comment \"" + comm.Content + "\" is not adequate because "
+
+                            }, new ViewDataDictionary { { "Id", num } })
                         }
                         else
                         {
