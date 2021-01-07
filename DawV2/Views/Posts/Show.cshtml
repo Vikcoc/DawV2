@@ -15,7 +15,7 @@
     <div class="panel-body">
         <p> @Model.Content </p>
         @{
-            if (User.IsInRole("Admin") || @Model.ApplicationUserId == ViewBag.utilizatorCurent)
+                if (User.IsInRole("Admin") || @Model.ApplicationUserId == User.Identity.GetUserId())
             {
                 <div class="butoane">
                     <hr />
