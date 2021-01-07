@@ -13,25 +13,27 @@
 
     <i class="glyphicon glyphicon-user"></i>
     @Html.Label("FirstName", "Prenume utilizator", new { @class = "" }) <br />
-    @Html.EditorFor(m => m.FirstName) <br /><br />
+    @Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control" } }) <br />
 
+    <i class="glyphicon glyphicon-user"></i>
     @Html.Label("LastName", "Nume utilizator", new { @class = "" }) <br />
-    @Html.EditorFor(m => m.LastName) <br /><br />
+    @Html.EditorFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control" } }) <br />
 
     <i class="glyphicon glyphicon-envelope"></i>
     @Html.Label("Email", "Email utilizator", new { @class = "" }) <br />
-    @Html.EditorFor(m => m.Email) <br /><br />
+    @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } }) <br />
 
     <i class="glyphicon glyphicon-phone"></i>
     @Html.Label("PhoneNumber", "Numar telefon") <br />
-    @Html.EditorFor(m => m.PhoneNumber) <br /><br />
+    @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } }) <br />
 
     @Html.LabelFor(m => m.IsPublic, "Vizibilitatea profilului") <br />
     @Html.DropDownListFor(m => m.IsPublic, new List<SelectListItem> {
                                                     new SelectListItem{ Text="Public", Value = "True" },
                                                     new SelectListItem{ Text="Privat", Value = "False" }},
-                                            new { @class = "form-control" }) <br /> <br />
+                                            new { @class = "form-control" }) <br />
 
-    <button class="btn btn-sm btn-success" type="submit">Modifica datele utilizatorului</button>
+    <button class="btn btn-primary" type="submit"> Editeaza profil </button>
+    <a class="btn btn-primary pull-right" href="/Users/Show/@Model.Id"> Inapoi la pagina de profil </a>
 }
 

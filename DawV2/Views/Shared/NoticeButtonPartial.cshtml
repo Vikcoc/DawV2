@@ -1,38 +1,36 @@
 ﻿@model DawV2.Models.Notice
 
 
-<div style="position: relative; height: initial;">
+<div style="position: relative; height: initial; clear: both; z-index: 2">
     
     <div style="display: block">
-        <button onclick="myFunction(@ViewBag.Id)" style="display: inline">Click Me</button>
-        <form method="post" action="/Notice/New" id="@("myDIV" + ViewBag.Id)" style="display: none; position: absolute; background: aqua;">
+        <button onclick="myFunction(@ViewBag.Id)" class="btn btn-danger"  style="display: inline">Give notice</button>
+        <form class="stealing" method="post" action="/Notice/New" id="@("myDIV" + ViewBag.Id)" style="display: none;">
             @Html.HiddenFor(x => x.ApplicationUserId, Model.ApplicationUserId)
-            @Html.ValidationMessageFor(x => x.Content, null, new {@class = "text-danger"})
-            <br/>
+            @*@Html.ValidationMessageFor(x => x.Content, null, new {@class = "text-danger"})*@
+            <br />
             @Html.LabelFor(x => x.Content, "Motivul")
-            <br/>
-            @Html.EditorFor(x => x.Content)
-            <br/>
-            <button type="submit" class="btn btn-info">Salveaza</button>
+            <br />
+            @Html.TextAreaFor(x => x.Content, new { style = "width: 250px; height: 100px;" })
+            <br />
+            <button type="submit" class="btn btn-info">Save</button>
         </form>
     </div>
 </div>
 
 @Scripts.Render("~/Scripts/NoticeButton.js")
 @*<script>
-    var zin = 0;
-    function myFunction(val) {
-        var id = "myDIV" + val;
-        //console.log(id);
-        var x = document.getElementById(id);
-        if (x.style.display === "none") {
-            x.style.display = "inline-block";
-            zin++;
-            x.style.zIndex = zin;
-        } else {
-            x.style.display = "none";
-            x.style.zIndex = 0;
-            //zin--;
-        }
+function myFunction(val) {
+    var id = "myDIV" + val;
+    //console.log(id);
+    var x = document.getElementById(id);
+    if (x.style.display === "none") {
+        x.style.display = "inline-block";
+        x.style.zIndex = 2;
+    } else {
+        x.style.display = "none";
+        //x.style.zIndex = 0;
+        //zin--;
     }
+}
 </script>*@

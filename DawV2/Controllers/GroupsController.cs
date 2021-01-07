@@ -60,7 +60,7 @@ namespace DawV2.Controllers
 
         public ActionResult Show(int id)
         {
-            var group = _context.Groups.Include(x => x.GroupMessages).Include(x => x.UserGroups).FirstOrDefault(x => x.GroupId == id);
+            var group = _context.Groups.Include(x => x.GroupMessages).Include(x => x.UserGroups.Select(userGroup => userGroup.ApplicationUser)).FirstOrDefault(x => x.GroupId == id);
             if (group == null)
                 return RedirectToAction("Index");
             return View(group);

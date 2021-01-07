@@ -14,26 +14,30 @@
 }
 @foreach (Group group in ViewBag.Groups)
 {
-    <div class="container-fluid bg-info" style="margin-top: 20px; padding-bottom: 15px">
-        <h1>@group.GroupName</h1>
-        <h2>@group.Description</h2>
-        <div>
-            <a class="btn btn-info" href="/Groups/Show/@group.GroupId">Show</a>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>@group.GroupName</strong>
+        </div>
+        @*<h1>@group.GroupName</h1>*@
+        @*<h2>@group.Description</h2>*@
+        <div class="panel-body">
+            <div>@group.Description</div> <br />
+            <a class="btn btn-primary btn-sm" href="/Groups/Show/@group.GroupId">Show</a>
             @if (group.UserGroups.Select(x => x.ApplicationUserId).Contains(userId))
             {
                 <form class="pull-right" method="post" action="/Groups/Delete/@group.GroupId">
                     @Html.HttpMethodOverride(HttpVerbs.Delete)
-                    <button type="submit" class="btn btn-danger">Sterge</button>
+                    <button type="submit" class="btn btn-danger btn-sm">Sterge</button>
                 </form>
-                <form class="pull-right" method="post" action="/Groups/Leave/@group.GroupId">
+                <form class="pull-right" method="post" action="/Groups/Leave/@group.GroupId"  style="margin-right:15px">
                     @Html.HttpMethodOverride(HttpVerbs.Delete)
-                    <button type="submit" class="btn btn-danger">Paraseste</button>
+                    <button type="submit" class="btn btn-danger btn-sm">Paraseste</button>
                 </form>
             }
             else
             {
                 <form class="pull-right" method="post" action="/Groups/Adhere/@group.GroupId">
-                    <button type="submit" class="btn btn-info">Adera</button>
+                    <button type="submit" class="btn btn-info btn-sm">Adera</button>
                 </form>
             }
 

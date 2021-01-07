@@ -34,6 +34,7 @@ namespace DawV2.Controllers
             return View();
         }
 
+        [Authorize(Roles="Admin")]
         public ActionResult Index()
         {
             var users = from user in db.Users
@@ -83,7 +84,7 @@ namespace DawV2.Controllers
                     
                     db.SaveChanges();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Show", new { id = id });
             }
             catch (Exception e)
             {
